@@ -1,1 +1,1 @@
-The Image Classification Project is designed to create a robust machine learning model capable of accurately categorizing images into predefined classes.
+This project is a lightweight Flask web application that enables users to upload images for classification using a pre-trained ONNX model trained on the CIFAR-10 dataset. Upon uploading, the image is processed and the app returns the predicted class label (such as cat, truck, or airplane).
