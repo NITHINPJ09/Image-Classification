@@ -6,7 +6,7 @@ COPY . .
 RUN groupadd -r appuser && \
     useradd -g appuser appuser && \
     chown -R appuser:appuser /image_classifier && \
-    pip3 install -r requirements.txt
+    pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 USER appuser
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "app:app"]
