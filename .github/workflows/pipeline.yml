@@ -20,19 +20,19 @@ jobs:
     
       # Checkout the repository
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Ensure entire history is fetched for accurate scans
 
       # Run gitleaks to scan for sensitive data in the repository
       - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required for accessing repository
 
       # Setup the Python environment
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'  # Specify Python version needed for your project
 
@@ -59,7 +59,7 @@ jobs:
     
       # Checkout the repository
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         
       # Build the Docker image
       - name: Build Docker Image
@@ -67,7 +67,7 @@ jobs:
 
       # Run Trivy vulnerability scanner
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: '${{ vars.IMAGE_NAME }}'
           format: 'table'
@@ -80,7 +80,7 @@ jobs:
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -121,7 +121,7 @@ jobs:
     
       # Checkout the repository
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Run OWASP ZAP Baseline Scan
       - name: ZAP Scan    
