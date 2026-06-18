@@ -3,21 +3,20 @@
 <div class="main">
   <div class="title">
     <h3>Image Classifier</h3>
-    <!-- <p>
-      <small>A web app demo</small>
-    </p> -->
+    <p class="subtitle">Upload an image and let the neural network predict its class</p>
   </div>
 
   <div class="panel">
     <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
     <label for="file-upload" id="file-drag" class="upload-box">
+      <div class="upload-icon">&#8682;</div>
       <div id="upload-caption">Drop image here or click to select</div>
       <img id="image-preview" class="hidden" />
     </label>
   </div>
-  <div style="margin-bottom: 2rem;">
+  <div class="actions">
     <input type="button" value="Submit" class="button" onclick="submitImage();" />
-    <input type="button" value="Clear" class="button" onclick="clearImage();" />
+    <input type="button" value="Clear" class="button secondary" onclick="clearImage();" />
   </div>
 
   <div id="image-box">
