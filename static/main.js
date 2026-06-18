@@ -2,8 +2,8 @@
 // Drag and drop image handling
 //========================================================================
 
-var fileDrag = document.getElementById("file-drag");
-var fileSelect = document.getElementById("file-upload");
+const fileDrag = document.getElementById("file-drag");
+const fileSelect = document.getElementById("file-upload");
 
 // Add event listeners
 fileDrag.addEventListener("dragover", fileDragHover, false);
@@ -21,9 +21,9 @@ function fileDragHover(e) {
 
 function fileSelectHandler(e) {
   // handle file selecting
-  var files = e.target.files || e.dataTransfer.files;
+  const files = e.target.files || e.dataTransfer.files;
   fileDragHover(e);
-  for (var i = 0, f; (f = files[i]); i++) {
+  for (let i = 0, f; (f = files[i]); i++) {
     previewFile(f);
   }
 }
@@ -32,11 +32,11 @@ function fileSelectHandler(e) {
 // Web page elements for functions to use
 //========================================================================
 
-var imagePreview = document.getElementById("image-preview");
-var imageDisplay = document.getElementById("image-display");
-var uploadCaption = document.getElementById("upload-caption");
-var predResult = document.getElementById("pred-result");
-var loader = document.getElementById("loader");
+const imagePreview = document.getElementById("image-preview");
+const imageDisplay = document.getElementById("image-display");
+const uploadCaption = document.getElementById("upload-caption");
+const predResult = document.getElementById("pred-result");
+const loader = document.getElementById("loader");
 
 //========================================================================
 // Main button events
@@ -44,8 +44,6 @@ var loader = document.getElementById("loader");
 
 function submitImage() {
   // action for the submit button
-  console.log("submit");
-
   if (!imageDisplay.src || !imageDisplay.src.startsWith("data")) {
     window.alert("Please select an image before submit.");
     return;
@@ -65,7 +63,7 @@ function clearImage() {
   // remove image sources and hide them
   imagePreview.src = "";
   imageDisplay.src = "";
-  predResult.innerHTML = "";
+  predResult.textContent = "";
 
   hide(imagePreview);
   hide(imageDisplay);
@@ -78,19 +76,18 @@ function clearImage() {
 
 function previewFile(file) {
   // show the preview of the image
-  console.log(file.name);
-  var fileName = encodeURI(file.name);
-
-  var reader = new FileReader();
+  const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onloadend = () => {
-    imagePreview.src = URL.createObjectURL(file);
+    // Use the data URL for both the preview and the display so the image is
+    // read only once (and there's no object URL to leak).
+    imagePreview.src = reader.result;
 
     show(imagePreview);
     hide(uploadCaption);
 
     // reset
-    predResult.innerHTML = "";
+    predResult.textContent = "";
     imageDisplay.classList.remove("loading");
 
     displayImage(reader.result, "image-display");
@@ -110,30 +107,44 @@ function predictImage(image) {
     body: JSON.stringify(image)
   })
     .then(resp => {
-      if (resp.ok)
-        resp.json().then(data => {
-          displayResult(data);
-        });
+      if (!resp.ok) {
+        return resp
+          .json()
+          .catch(() => ({}))
+          .then(data => {
+            throw new Error(
+              data.error || "Request failed (" + resp.status + ")."
+            );
+          });
+      }
+      return resp.json().then(displayResult);
     })
     .catch(err => {
-      console.log("An error occured", err.message);
-      window.alert("Oops! Something went wrong.");
+      console.error("Prediction request failed:", err.message);
+      resetAfterError();
+      window.alert(err.message || "Oops! Something went wrong.");
     });
 }
 
 function displayImage(image, id) {
   // display image on given id <img> element
-  let display = document.getElementById(id);
+  const display = document.getElementById(id);
   display.src = image;
   show(display);
 }
 
 function displayResult(data) {
   // display the result
-  // imageDisplay.classList.remove("loading");
   hide(loader);
-  predResult.innerHTML = data.result;
+  predResult.textContent = data.result;
   show(predResult);
+}
+
+function resetAfterError() {
+  // clear the loading state so the UI doesn't hang on a failed request
+  hide(loader);
+  hide(predResult);
+  imageDisplay.classList.remove("loading");
 }
 
 function hide(el) {
