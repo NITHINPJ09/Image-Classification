@@ -148,22 +148,17 @@ body {
   display: none;
 }
 
-.reveal {
-  opacity: 0;
-}
-
-.reveal:hover {
-  opacity: 0.2;
-}
-
-/* Upload box */
+/* Upload box — the single image area; preview, result and loader all live
+   inside it and are clipped to its bounds so nothing can overflow. */
 .upload-box {
+  position: relative;
+  overflow: hidden;
   font-size: 0.9rem;
   color: var(--text-secondary);
   cursor: pointer;
   width: 22rem;
   max-width: 100%;
-  height: 13rem;
+  height: 16rem;
   background: var(--bg-elevated);
   border: 1.5px dashed var(--border-strong);
   border-radius: var(--radius);
@@ -203,40 +198,19 @@ body {
   background-color: var(--bg-elevated-2);
 }
 
-/* Shared frame — one source of truth for both image areas */
-.image-preview,
-.image-display {
-  object-fit: contain; /* whole image visible, never distorted */
+/* Preview image — fills the upload box exactly; object-fit: contain keeps the
+   whole image visible and overflow: hidden on the box clips any excess. */
+.image-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   background: var(--bg-elevated);
-  border-radius: 10px;
+  border-radius: var(--radius);
 }
 
-/* Preview: fixed area inside the upload box */
-.upload-box .image-preview {
-  width: 19rem;
-  height: 11rem;
-  box-shadow: var(--shadow-soft);
-}
-
-.image-box {
-  position: relative;
-  width: auto;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
-}
-
-/* Result: fixed frame, same width as the upload box for visual rhythm */
-.image-display {
-  width: 22rem;
-  max-width: 100%;
-  height: 16rem;
-  box-shadow: var(--shadow-strong);
-  border: 1px solid var(--border-subtle);
-}
-
-.image-display.loading {
+.image-preview.loading {
   filter: brightness(28%) saturate(0.8);
 }
 
