@@ -16,7 +16,8 @@ function fileDragHover(e) {
   e.preventDefault();
   e.stopPropagation();
 
-  fileDrag.className = e.type === "dragover" ? "upload-box dragover" : "upload-box";
+  fileDrag.className =
+    e.type === "dragover" ? "upload-box dragover" : "upload-box";
 }
 
 function fileSelectHandler(e) {
@@ -33,7 +34,6 @@ function fileSelectHandler(e) {
 //========================================================================
 
 const imagePreview = document.getElementById("image-preview");
-const imageDisplay = document.getElementById("image-display");
 const uploadCaption = document.getElementById("upload-caption");
 const predResult = document.getElementById("pred-result");
 const loader = document.getElementById("loader");
@@ -44,34 +44,32 @@ const loader = document.getElementById("loader");
 
 function submitImage() {
   // action for the submit button
-  if (!imageDisplay.src || !imageDisplay.src.startsWith("data")) {
+  if (!imagePreview.src || !imagePreview.src.startsWith("data")) {
     window.alert("Please select an image before submit.");
     return;
   }
 
   loader.classList.remove("hidden");
-  imageDisplay.classList.add("loading");
+  imagePreview.classList.add("loading");
 
   // call the predict function of the backend
-  predictImage(imageDisplay.src);
+  predictImage(imagePreview.src);
 }
 
 function clearImage() {
   // reset selected files
   fileSelect.value = "";
 
-  // remove image sources and hide them
+  // remove image source and hide it
   imagePreview.src = "";
-  imageDisplay.src = "";
   predResult.textContent = "";
 
   hide(imagePreview);
-  hide(imageDisplay);
   hide(loader);
   hide(predResult);
   show(uploadCaption);
 
-  imageDisplay.classList.remove("loading");
+  imagePreview.classList.remove("loading");
 }
 
 function previewFile(file) {
@@ -79,8 +77,6 @@ function previewFile(file) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onloadend = () => {
-    // Use the data URL for both the preview and the display so the image is
-    // read only once (and there's no object URL to leak).
     imagePreview.src = reader.result;
 
     show(imagePreview);
@@ -88,9 +84,8 @@ function previewFile(file) {
 
     // reset
     predResult.textContent = "";
-    imageDisplay.classList.remove("loading");
-
-    displayImage(reader.result, "image-display");
+    hide(predResult);
+    imagePreview.classList.remove("loading");
   };
 }
 
@@ -126,16 +121,10 @@ function predictImage(image) {
     });
 }
 
-function displayImage(image, id) {
-  // display image on given id <img> element
-  const display = document.getElementById(id);
-  display.src = image;
-  show(display);
-}
-
 function displayResult(data) {
-  // display the result
+  // display the result over the image, and lift the dim once it's shown
   hide(loader);
+  imagePreview.classList.remove("loading");
   predResult.textContent = data.result;
   show(predResult);
 }
@@ -144,7 +133,7 @@ function resetAfterError() {
   // clear the loading state so the UI doesn't hang on a failed request
   hide(loader);
   hide(predResult);
-  imageDisplay.classList.remove("loading");
+  imagePreview.classList.remove("loading");
 }
 
 function hide(el) {
