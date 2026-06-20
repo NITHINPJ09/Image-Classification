@@ -44,7 +44,7 @@ def predict():
     # --- Run inference (server errors -> 500) ---
     try:
         img = cv2.resize(np.array(pil_image), (32, 32))
-        img = np.array([img]).astype('float64') / 255.0
+        img = np.array([img], dtype=np.float32) / 255.0
 
         with NET_LOCK:
             NET.setInput(img)
