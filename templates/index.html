@@ -14,19 +14,15 @@
         Drop image here or click to select
       </div>
       <img id="image-preview" class="image-preview hidden" />
+      <div id="pred-result" class="pred-result hidden"></div>
+      <svg id="loader" class="loader hidden" viewBox="0 0 32 32" width="32" height="32">
+        <circle id="spinner" class="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+      </svg>
     </label>
   </div>
   <div class="actions">
     <input type="button" value="Submit" class="button" onclick="submitImage();" />
     <input type="button" value="Clear" class="button secondary" onclick="clearImage();" />
-  </div>
-
-  <div id="image-box" class="image-box">
-    <img id="image-display" class="image-display hidden" />
-    <div id="pred-result" class="pred-result hidden"></div>
-    <svg id="loader" class="loader hidden" viewBox="0 0 32 32" width="32" height="32">
-      <circle id="spinner" class="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-    </svg>
   </div>
 </div>
 
