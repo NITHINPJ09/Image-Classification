@@ -9,9 +9,11 @@
   <div class="panel">
     <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
     <label for="file-upload" id="file-drag" class="upload-box">
-      <div class="upload-icon">&#8682;</div>
-      <div id="upload-caption">Drop image here or click to select</div>
-      <img id="image-preview" class="hidden" />
+      <div id="upload-caption" class="upload-caption">
+        <div class="upload-icon">&#8682;</div>
+        Drop image here or click to select
+      </div>
+      <img id="image-preview" class="image-preview hidden" />
     </label>
   </div>
   <div class="actions">
@@ -19,11 +21,11 @@
     <input type="button" value="Clear" class="button secondary" onclick="clearImage();" />
   </div>
 
-  <div id="image-box">
-    <img id="image-display" />
-    <div id="pred-result" class="hidden"></div>
-    <svg id="loader" class="hidden" viewBox="0 0 32 32" width="32" height="32">
-      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+  <div id="image-box" class="image-box">
+    <img id="image-display" class="image-display hidden" />
+    <div id="pred-result" class="pred-result hidden"></div>
+    <svg id="loader" class="loader hidden" viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" class="spinner" cx="16" cy="16" r="14" fill="none"></circle>
     </svg>
   </div>
 </div>
