@@ -11,7 +11,6 @@
   --accent: #4f8cff;
   --accent-hover: #6ba0ff;
   --accent-soft: rgba(79, 140, 255, 0.14);
-  --success: #3fb950;
   --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-strong: 0 16px 48px rgba(0, 0, 0, 0.55);
   --radius: 14px;
@@ -101,7 +100,6 @@ body {
 /* Main section */
 
 .main {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -174,9 +172,17 @@ body {
   align-items: center;
   flex-direction: column;
   gap: 0.5rem;
-  margin: 1.75rem 0 1.75rem 0;
+  margin: 1.75rem 0;
   transition: border-color 0.2s ease, background-color 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+.upload-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
 }
 
 .upload-box .upload-icon {
@@ -198,27 +204,21 @@ body {
 }
 
 /* Shared frame — one source of truth for both image areas */
-#image-preview,
-#image-display {
+.image-preview,
+.image-display {
   object-fit: contain; /* whole image visible, never distorted */
   background: var(--bg-elevated);
   border-radius: 10px;
 }
 
 /* Preview: fixed area inside the upload box */
-.upload-box #image-preview {
+.upload-box .image-preview {
   width: 19rem;
   height: 11rem;
   box-shadow: var(--shadow-soft);
 }
 
-#image-result {
-  box-shadow: var(--shadow-strong);
-  max-height: 20rem;
-  border-radius: 10px;
-}
-
-#image-box {
+.image-box {
   position: relative;
   width: auto;
   margin-top: 1rem;
@@ -228,7 +228,7 @@ body {
 }
 
 /* Result: fixed frame, same width as the upload box for visual rhythm */
-#image-display {
+.image-display {
   width: 22rem;
   max-width: 100%;
   height: 16rem;
@@ -236,11 +236,11 @@ body {
   border: 1px solid var(--border-subtle);
 }
 
-#image-display.loading {
+.image-display.loading {
   filter: brightness(28%) saturate(0.8);
 }
 
-#pred-result {
+.pred-result {
   color: #ffffff;
   font-size: 1.6rem;
   font-weight: 700;
@@ -258,7 +258,7 @@ body {
   white-space: nowrap;
 }
 
-#loader {
+.loader {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -268,7 +268,7 @@ body {
 }
 
 /* Animation */
-#spinner {
+.spinner {
   box-sizing: border-box;
   stroke: var(--accent);
   stroke-width: 3px;
